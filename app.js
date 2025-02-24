@@ -2,6 +2,10 @@ const boardSize = 10;
 const gemCount = 3;
 const board = document.querySelector(".game-board");
 
+const startButton = document.querySelector(".start-btn");
+
+startButton.addEventListener("click", startGame);
+
 let gemPositions = [];
 
 const placeGemsRandomly = () => {
@@ -30,6 +34,29 @@ function createGrid() {
       board.appendChild(cell);
     }
   }
+}
+
+const timer = document.querySelector(".timer");
+const timerValue = document.querySelector(".timer-value");
+
+function startGame() {
+  startButton.classList.add("hidden");
+  startTime();
+}
+
+//start timer
+function startTime() {
+  console.log(timerValue.textContent);
+
+  let timeLeft = 30;
+  const timerInterval = setInterval(() => {
+    timeLeft--;
+    timerValue.textContent = timeLeft;
+    console.log(timeLeft);
+    if (timeLeft === 0) {
+      clearInterval(timerInterval);
+    }
+  }, 1000);
 }
 
 createGrid();

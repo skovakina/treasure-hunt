@@ -55,6 +55,10 @@ ul {
   padding: 6px 12px;
 }
 
+.hidden {
+  display: none;
+}
+
 /* Navigation */
 nav {
   display: flex;
