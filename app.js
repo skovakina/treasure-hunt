@@ -58,11 +58,36 @@ function startTime() {
       clearInterval(timerInterval);
     }
   }, 1000);
+  playGame();
+}
+
+function coverCells() {
+  const cells = document.querySelectorAll(".cell");
+  cells.forEach((cell) => {
+    cell.classList.add("tile");
+  });
+}
+
+function uncoverCells() {
+  const cells = document.querySelectorAll(".cell");
+  cells.forEach((cell) => {
+    cell.classList.remove("tile");
+  });
 }
 
 function initialize() {
   timer.classList.add("hidden");
   createGrid();
+  //   coverCells();
+}
+
+function playGame() {
+  const cells = document.querySelectorAll(".cell");
+  cells.forEach((cell) => {
+    cell.addEventListener("click", () => {
+      cell.classList.remove("tile");
+    });
+  });
 }
 
 initialize();

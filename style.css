@@ -191,3 +191,10 @@ footer {
 .gem {
   background-color: red;
 }
+
+.tile {
+  width: 42px;
+  height: 42px;
+  border-radius: 2px;
+  background-color: rgb(49, 49, 49);
+}
