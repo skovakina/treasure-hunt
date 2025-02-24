@@ -2,15 +2,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-size: 1rem;
+  font-family: "Unkempt", serif;
+  font-weight: 700;
 }
 
 body {
-  font-family: "Unkempt", serif;
   text-shadow: -1px -1px 0 #442e00, 1px -1px 0 #442e00, -1px 1px 0 #442e00,
     1px 1px 0 #442e00, 0px -1px 0 #442e00, 0px 1px 0 #442e00, -1px 0px 0 #442e00,
     1px 0px 0 #442e00;
-
-  font-weight: 700;
   font-style: normal;
   background-color: #313131;
   color: #f7edd1;
@@ -85,18 +85,23 @@ main {
   background-color: #1f1f1f;
 }
 
-.timer {
+.board-medium {
   background-image: url("./assets/components/board-medium.png");
   background-size: cover;
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 187px;
   height: 68px;
-  font-size: 2rem;
+  padding-bottom: 6px;
 }
 
-.timer p {
-  padding-top: 12px;
+.timer {
+}
+
+.timer p,
+span {
+  font-size: 2rem;
 }
 
 .game-board {
@@ -108,15 +113,12 @@ main {
 
 /* Right Column */
 .score {
-  background-image: url("./assets/components/board-medium.png");
-  background-size: cover;
-  box-sizing: border-box;
-  width: 187px;
-  height: 68px;
-  display: flex;
-  padding-left: 32px;
-  align-items: center;
+  font-size: 2rem;
   gap: 10px;
+}
+
+.score p {
+  font-size: 1.5rem;
 }
 
 .score img {
