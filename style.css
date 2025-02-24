@@ -31,6 +31,30 @@ ul {
   padding: 0;
 }
 
+/* Utils */
+
+.board-medium {
+  background-image: url("./assets/components/board-medium.png");
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 187px;
+  height: 68px;
+  padding-bottom: 6px;
+}
+
+.board-big {
+  background-image: url("./assets/components/board-big.png");
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 240px;
+  height: 120px;
+  padding: 6px 12px;
+}
+
 /* Navigation */
 nav {
   display: flex;
@@ -68,34 +92,14 @@ main {
 .center-column,
 .right-column {
   padding: 20px;
+  border-radius: 20px;
 }
 
 /* Center Column */
 .center-column {
-  text-align: center;
-  background-color: #1f1f1f;
-}
-
-.board-medium {
-  background-image: url("./assets/components/board-medium.png");
-  background-size: cover;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  width: 187px;
-  height: 68px;
-  padding-bottom: 6px;
-}
-
-.board-big {
-  background-image: url("./assets/components/board-big.png");
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 240px;
-  height: 120px;
-  padding: 6px 12px;
 }
 
 .timer {
@@ -158,4 +162,27 @@ footer {
   padding: 10px;
   background: #333;
   color: #aaa;
+}
+
+/* Elements */
+
+.cell {
+  width: 42px;
+  height: 42px;
+  border-radius: 2px;
+  background-color: lightgrey;
+}
+
+.game-board {
+  padding: 12px;
+  border-radius: 20px;
+  border: 4px solid #f7ebcf;
+  background: #1f1f1f;
+  display: grid;
+  grid-template-columns: repeat(10, 42px);
+  grid-gap: 4px;
+}
+
+.gem {
+  background-color: red;
 }
