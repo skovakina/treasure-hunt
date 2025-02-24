@@ -2,6 +2,17 @@ const BOARD_SIZE = 10;
 const GEM_COUNT = 3;
 const TIMER = 30;
 
+const OFFSET = [
+  [-1, -1],
+  [-1, 0],
+  [-1, 1],
+  [0, -1],
+  [0, 1],
+  [1, -1],
+  [1, 0],
+  [1, 1],
+];
+
 const board = document.querySelector(".game-board");
 const startButton = document.querySelector(".start-btn");
 const timer = document.querySelector(".timer");
@@ -11,7 +22,7 @@ startButton.addEventListener("click", startGame);
 
 let gemPositions = [];
 
-const placeGemsRandomly = () => {
+const placeGems = () => {
   while (gemPositions.length < GEM_COUNT) {
     const randomRow = Math.floor(Math.random() * BOARD_SIZE);
     const randomCol = Math.floor(Math.random() * BOARD_SIZE);
@@ -19,24 +30,50 @@ const placeGemsRandomly = () => {
     if (!gemPositions.includes(position)) {
       gemPositions.push(position);
     }
+    console.log(gemPositions);
   }
 };
 
+// check if a position is within the grid
+const isValidPosition = (row, col) => {
+  return row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE;
+};
+
 function createGrid() {
-  placeGemsRandomly();
+  placeGems();
 
-  for (let row = 0; row < BOARD_SIZE; row++) {
-    for (let col = 0; col < BOARD_SIZE; col++) {
-      const cell = document.createElement("div");
-      cell.classList.add("cell");
-      const position = `${row}-${col}`;
+  const hintPosition = [];
+  gemPositions.forEach((gem) => {
+    const [gemRow, gemCol] = gem.split("-").map(Number);
+    console.log(gemRow, gemCol);
 
-      if (gemPositions.includes(position)) {
-        cell.classList.add("gem");
+    OFFSET.forEach((offset) => {
+      const row = gemRow + offset[0];
+      const col = gemCol + offset[1];
+      if (
+        isValidPosition(row, col) &&
+        !gemPositions.includes(`${row}-${col}`)
+      ) {
+        hintPosition.push(`${row}-${col}`);
       }
-      board.appendChild(cell);
+    });
+    console.log(hintPosition);
+
+    for (let row = 0; row < BOARD_SIZE; row++) {
+      for (let col = 0; col < BOARD_SIZE; col++) {
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+        const position = `${row}-${col}`;
+        if (gemPositions.includes(position)) {
+          cell.classList.add("gem");
+        }
+        if (hintPosition.includes(position)) {
+          cell.classList.add("hint");
+        }
+        board.appendChild(cell);
+      }
     }
-  }
+  });
 }
 
 function startGame() {

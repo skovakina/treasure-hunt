@@ -198,3 +198,7 @@ footer {
   border-radius: 2px;
   background-color: rgb(49, 49, 49);
 }
+
+.hint {
+  background-color: pink;
+}
