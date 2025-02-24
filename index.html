@@ -22,10 +22,16 @@
   <body>
     <!-- Navigation -->
     <nav>
-      <button class="menu-btn">☰</button>
+      <button class="menu-btn">
+        <img src="./assets/icons/icon-menu.png" alt="Menu" />
+      </button>
       <div class="settings">
-        <button class="gear-btn">⚙️</button>
-        <button class="restart-btn">🔄</button>
+        <button class="gear-btn">
+          <img src="./assets/icons/icon-settings.png" alt="Menu" />
+        </button>
+        <button class="restart-btn">
+          <img src="./assets/icons/icon-restart.png" alt="Menu" />
+        </button>
       </div>
     </nav>
 
@@ -44,7 +50,12 @@
 
       <!-- Center Column: Game Grid -->
       <section class="center-column">
-        <div class="timer">30 sec</div>
+        <div class="timer">
+          <p>30 <span>sec</span></p>
+        </div>
+        <button class="start-btn">
+          <img src="./assets/icons/icon-start.png" alt="Start" />
+        </button>
         <div class="game-board">
           <!-- Grid goes here -->
         </div>
@@ -53,7 +64,8 @@
       <!-- Right Column: Score and Gem Info -->
       <section class="right-column">
         <div class="score">
-          <p>Score: <span>0</span></p>
+          <img src="./assets/icons/icon-star.png" alt="Start" />
+          <p class="score-value">1,000</p>
         </div>
         <div class="gem-info">
           <p>Gems Found:</p>
