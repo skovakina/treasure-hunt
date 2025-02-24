@@ -1,5 +1,5 @@
 const BOARD_SIZE = 10;
-const GEM_COUNT = 3;
+const GEM_COUNT = 5;
 const TIMER = 30;
 
 const OFFSET = [
@@ -22,7 +22,7 @@ startButton.addEventListener("click", startGame);
 
 let gemPositions = [];
 
-const placeGems = () => {
+function placeGems() {
   while (gemPositions.length < GEM_COUNT) {
     const randomRow = Math.floor(Math.random() * BOARD_SIZE);
     const randomCol = Math.floor(Math.random() * BOARD_SIZE);
@@ -32,12 +32,12 @@ const placeGems = () => {
     }
     console.log(gemPositions);
   }
-};
+}
 
 // check if a position is within the grid
-const isValidPosition = (row, col) => {
+function isValidPosition(row, col) {
   return row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE;
-};
+}
 
 function createGrid() {
   placeGems();
@@ -57,23 +57,22 @@ function createGrid() {
         hintPosition.push(`${row}-${col}`);
       }
     });
-    console.log(hintPosition);
-
-    for (let row = 0; row < BOARD_SIZE; row++) {
-      for (let col = 0; col < BOARD_SIZE; col++) {
-        const cell = document.createElement("div");
-        cell.classList.add("cell");
-        const position = `${row}-${col}`;
-        if (gemPositions.includes(position)) {
-          cell.classList.add("gem");
-        }
-        if (hintPosition.includes(position)) {
-          cell.classList.add("hint");
-        }
-        board.appendChild(cell);
-      }
-    }
   });
+
+  for (let row = 0; row < BOARD_SIZE; row++) {
+    for (let col = 0; col < BOARD_SIZE; col++) {
+      const cell = document.createElement("div");
+      cell.classList.add("cell");
+      const position = `${row}-${col}`;
+      if (gemPositions.includes(position)) {
+        cell.classList.add("gem");
+      }
+      if (hintPosition.includes(position)) {
+        cell.classList.add("hint");
+      }
+      board.appendChild(cell);
+    }
+  }
 }
 
 function startGame() {
@@ -115,7 +114,7 @@ function uncoverCells() {
 function initialize() {
   timer.classList.add("hidden");
   createGrid();
-  //   coverCells();
+  coverCells();
 }
 
 function playGame() {
