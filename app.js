@@ -21,6 +21,7 @@ const timerValue = document.querySelector(".timer-value");
 startButton.addEventListener("click", startGame);
 
 let gemPositions = [];
+let totalScrore = 0;
 
 function placeGems() {
   while (gemPositions.length < GEM_COUNT) {
@@ -33,7 +34,6 @@ function placeGems() {
   }
 }
 
-// check if a position is within the grid
 function isValidPosition(row, col) {
   return row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE;
 }
@@ -82,7 +82,6 @@ function startGame() {
   startTime();
 }
 
-//start timer
 function startTime() {
   timer.classList.remove("hidden");
 
@@ -105,25 +104,15 @@ function coverCells() {
   });
 }
 
-function uncoverCells() {
-  const cells = document.querySelectorAll(".cell");
-  cells.forEach((cell) => {
-    removeTileImage(cell);
-  });
-}
-
-function initialize() {
-  timer.classList.add("hidden");
-  createGrid();
-  coverCells();
-}
-
 function playGame() {
-  const cells = document.querySelectorAll(".cell");
-  cells.forEach((cell) => {
-    cell.addEventListener("click", () => {
+  board.addEventListener("click", (event) => {
+    const cell = event.target;
+    if (cell.classList.contains("cell")) {
       removeTileImage(cell);
-    });
+    }
+    if (cell.classList.contains("gem")) {
+      totalScrore += 100;
+    }
   });
 }
 
@@ -136,6 +125,12 @@ function getTileImage(cell) {
 
 function removeTileImage(cell) {
   cell.style.backgroundImage = "none";
+}
+
+function initialize() {
+  timer.classList.add("hidden");
+  createGrid();
+  coverCells();
 }
 
 initialize();
