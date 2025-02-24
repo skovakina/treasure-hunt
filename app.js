@@ -30,7 +30,6 @@ function placeGems() {
     if (!gemPositions.includes(position)) {
       gemPositions.push(position);
     }
-    console.log(gemPositions);
   }
 }
 
@@ -41,23 +40,7 @@ function isValidPosition(row, col) {
 
 function createGrid() {
   placeGems();
-
-  const hintPosition = [];
-  gemPositions.forEach((gem) => {
-    const [gemRow, gemCol] = gem.split("-").map(Number);
-    console.log(gemRow, gemCol);
-
-    OFFSET.forEach((offset) => {
-      const row = gemRow + offset[0];
-      const col = gemCol + offset[1];
-      if (
-        isValidPosition(row, col) &&
-        !gemPositions.includes(`${row}-${col}`)
-      ) {
-        hintPosition.push(`${row}-${col}`);
-      }
-    });
-  });
+  hints = getHintPosition();
 
   for (let row = 0; row < BOARD_SIZE; row++) {
     for (let col = 0; col < BOARD_SIZE; col++) {
@@ -67,12 +50,31 @@ function createGrid() {
       if (gemPositions.includes(position)) {
         cell.classList.add("gem");
       }
-      if (hintPosition.includes(position)) {
+      if (hints.includes(position)) {
         cell.classList.add("hint");
       }
       board.appendChild(cell);
     }
   }
+
+  const cells = document.querySelectorAll(".cell");
+}
+
+function getHintPosition() {
+  const hintPosition = [];
+  gemPositions.forEach((gem) => {
+    const [gemRow, gemCol] = gem.split("-").map(Number);
+
+    OFFSET.forEach((offset) => {
+      const row = gemRow + offset[0];
+      const col = gemCol + offset[1];
+      const position = `${row}-${col}`;
+      if (isValidPosition(row, col) && !gemPositions.includes(position)) {
+        hintPosition.push(position);
+      }
+    });
+  });
+  return hintPosition;
 }
 
 function startGame() {
@@ -82,7 +84,6 @@ function startGame() {
 
 //start timer
 function startTime() {
-  console.log(timerValue.textContent);
   timer.classList.remove("hidden");
 
   let timeLeft = TIMER;
@@ -100,14 +101,14 @@ function startTime() {
 function coverCells() {
   const cells = document.querySelectorAll(".cell");
   cells.forEach((cell) => {
-    cell.classList.add("tile");
+    getTileImage(cell);
   });
 }
 
 function uncoverCells() {
   const cells = document.querySelectorAll(".cell");
   cells.forEach((cell) => {
-    cell.classList.remove("tile");
+    removeTileImage(cell);
   });
 }
 
@@ -121,9 +122,20 @@ function playGame() {
   const cells = document.querySelectorAll(".cell");
   cells.forEach((cell) => {
     cell.addEventListener("click", () => {
-      cell.classList.remove("tile");
+      removeTileImage(cell);
     });
   });
+}
+
+function getTileImage(cell) {
+  const tileType = Math.floor(Math.random() * 33);
+  cell.style.backgroundImage = `url('./assets/tiles/tile-type-${tileType}.png')`;
+  cell.style.backgroundSize = "fill";
+  cell.style.backgroundPosition = "center";
+}
+
+function removeTileImage(cell) {
+  cell.style.backgroundImage = "none";
 }
 
 initialize();

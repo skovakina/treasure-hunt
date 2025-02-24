@@ -175,7 +175,7 @@ footer {
   width: 42px;
   height: 42px;
   border-radius: 2px;
-  background-color: lightgrey;
+  background-color: rgb(49, 49, 49);
 }
 
 .game-board {
