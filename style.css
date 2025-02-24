@@ -125,6 +125,11 @@ span {
   margin-left: 8px;
 }
 
+.rules-heading {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+}
+
 /* Right Column */
 .score {
   font-size: 2rem;
