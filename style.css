@@ -107,6 +107,7 @@ main {
 }
 
 .timer {
+  gap: 6px;
 }
 
 .timer p,

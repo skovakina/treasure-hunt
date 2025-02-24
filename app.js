@@ -1,17 +1,20 @@
-const boardSize = 10;
-const gemCount = 3;
-const board = document.querySelector(".game-board");
+const BOARD_SIZE = 10;
+const GEM_COUNT = 3;
+const TIMER = 30;
 
+const board = document.querySelector(".game-board");
 const startButton = document.querySelector(".start-btn");
+const timer = document.querySelector(".timer");
+const timerValue = document.querySelector(".timer-value");
 
 startButton.addEventListener("click", startGame);
 
 let gemPositions = [];
 
 const placeGemsRandomly = () => {
-  while (gemPositions.length < gemCount) {
-    const randomRow = Math.floor(Math.random() * boardSize);
-    const randomCol = Math.floor(Math.random() * boardSize);
+  while (gemPositions.length < GEM_COUNT) {
+    const randomRow = Math.floor(Math.random() * BOARD_SIZE);
+    const randomCol = Math.floor(Math.random() * BOARD_SIZE);
     const position = `${randomRow}-${randomCol}`;
     if (!gemPositions.includes(position)) {
       gemPositions.push(position);
@@ -22,8 +25,8 @@ const placeGemsRandomly = () => {
 function createGrid() {
   placeGemsRandomly();
 
-  for (let row = 0; row < boardSize; row++) {
-    for (let col = 0; col < boardSize; col++) {
+  for (let row = 0; row < BOARD_SIZE; row++) {
+    for (let col = 0; col < BOARD_SIZE; col++) {
       const cell = document.createElement("div");
       cell.classList.add("cell");
       const position = `${row}-${col}`;
@@ -36,9 +39,6 @@ function createGrid() {
   }
 }
 
-const timer = document.querySelector(".timer");
-const timerValue = document.querySelector(".timer-value");
-
 function startGame() {
   startButton.classList.add("hidden");
   startTime();
@@ -47,8 +47,9 @@ function startGame() {
 //start timer
 function startTime() {
   console.log(timerValue.textContent);
+  timer.classList.remove("hidden");
 
-  let timeLeft = 30;
+  let timeLeft = TIMER;
   const timerInterval = setInterval(() => {
     timeLeft--;
     timerValue.textContent = timeLeft;
@@ -59,4 +60,9 @@ function startTime() {
   }, 1000);
 }
 
-createGrid();
+function initialize() {
+  timer.classList.add("hidden");
+  createGrid();
+}
+
+initialize();
