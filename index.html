@@ -6,6 +6,12 @@
     <title>Treasure Hunt</title>
     <script defer src="./app.js"></script>
     <link rel="stylesheet" href="./style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unkempt:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="icon"
       type="image/png"
@@ -13,5 +19,52 @@
       href="./assets/favicon.png"
     />
   </head>
-  <body></body>
+  <body>
+    <!-- Navigation -->
+    <nav>
+      <button class="menu-btn">☰</button>
+      <div class="settings">
+        <button class="gear-btn">⚙️</button>
+        <button class="restart-btn">🔄</button>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+      <!-- Left Column: Instructions -->
+      <section class="left-column">
+        <ul>
+          <li>Tap on any tile to uncover the color.</li>
+          <li>
+            Each color gives a hint about how close you are to a hidden gem.
+          </li>
+          <li>Uncover as many gems as possible before time runs out.</li>
+        </ul>
+      </section>
+
+      <!-- Center Column: Game Grid -->
+      <section class="center-column">
+        <div class="timer">30 sec</div>
+        <div class="game-board">
+          <!-- Grid goes here -->
+        </div>
+      </section>
+
+      <!-- Right Column: Score and Gem Info -->
+      <section class="right-column">
+        <div class="score">
+          <p>Score: <span>0</span></p>
+        </div>
+        <div class="gem-info">
+          <p>Gems Found:</p>
+          <ul></ul>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer: Credits -->
+    <footer>
+      <p>© 2025 Treasurehunt by Sveta Kovakina</p>
+    </footer>
+  </body>
 </html>
