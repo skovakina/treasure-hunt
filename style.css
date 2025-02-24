@@ -68,15 +68,6 @@ main {
 .center-column,
 .right-column {
   padding: 20px;
-  border-radius: 10px;
-}
-
-/* Left Column */
-.left-column ul li {
-  background: #4e4e4e;
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 5px;
 }
 
 /* Center Column */
@@ -96,6 +87,17 @@ main {
   padding-bottom: 6px;
 }
 
+.board-big {
+  background-image: url("./assets/components/board-big.png");
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 240px;
+  height: 120px;
+  padding: 6px 12px;
+}
+
 .timer {
 }
 
@@ -109,6 +111,18 @@ span {
   grid-template-columns: repeat(10, 30px);
   grid-gap: 5px;
   justify-content: center;
+}
+
+/* Left Column / Rules */
+
+.rule-item {
+  font-size: 1.125rem;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.rule-item img {
+  margin-left: 8px;
 }
 
 /* Right Column */
