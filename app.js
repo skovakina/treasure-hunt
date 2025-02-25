@@ -117,7 +117,7 @@ function playGame() {
 }
 
 function getTileImage(cell) {
-  const tileType = Math.floor(Math.random() * 33);
+  const tileType = Math.floor(Math.random() * 11);
   cell.style.backgroundImage = `url('./assets/tiles/tile-type-${tileType}.png')`;
   cell.style.backgroundSize = "fill";
   cell.style.backgroundPosition = "center";
