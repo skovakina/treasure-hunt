@@ -288,3 +288,12 @@ footer {
 .game-over-text {
   font-size: 2rem;
 }
+
+.cell {
+  cursor: pointer;
+}
+
+.cell.paused {
+  pointer-events: none;
+  cursor: default;
+}

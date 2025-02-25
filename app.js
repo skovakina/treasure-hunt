@@ -5,7 +5,11 @@ const TIMER = 30;
 let timeLeft = TIMER;
 let timerInterval;
 let isPaused = false;
+let gemPositions = [];
+let totalScore = 0;
+let gemsFound = 0;
 
+// Offsets for hint positions
 const OFFSET = [
   [-1, -1],
   [-1, 0],
@@ -19,27 +23,22 @@ const OFFSET = [
 
 const board = document.querySelector(".game-board");
 const startButton = document.querySelector(".start-btn");
-const timer = document.querySelector(".timer");
-const actions = document.querySelector(".game-actions-container");
 const timerValue = document.querySelector(".timer-value");
-const pauseBatton = document.querySelector(".pause-btn");
+const pauseButton = document.querySelector(".pause-btn");
 const scoreEl = document.querySelector(".score-value");
 const gemEl = document.querySelector(".gem-found");
 const congratulationsEl = document.querySelector(".congratulations");
 const gameOverEl = document.querySelectorAll(".game-over");
 const gameOverBtn = document.querySelectorAll(".game-over-btn");
+const actions = document.querySelector(".game-actions-container");
 
 gameOverEl.forEach((el) => el.classList.add("hidden"));
 
-console.log(gameOverEl);
-
-pauseBatton.addEventListener("click", handlePause);
-
+pauseButton.addEventListener("click", handlePause);
 startButton.addEventListener("click", startGame);
-
-let gemPositions = [];
-let totalScore = 0;
-let gemsFound = 0;
+gameOverBtn.forEach((btn) => {
+  btn.addEventListener("click", startGame);
+});
 
 function placeGems() {
   while (gemPositions.length < GEM_COUNT) {
@@ -145,19 +144,23 @@ function coverCells() {
   });
 }
 function handlePause() {
+  const cells = document.querySelectorAll(".cell");
   if (isPaused) {
     isPaused = false;
     startTime();
-    pauseBatton.style.backgroundImage = "url('./assets/icons/icon-pause.png')";
+    cells.forEach((cell) => cell.classList.remove("paused"));
+    pauseButton.style.backgroundImage = "url('./assets/icons/icon-pause.png')";
   } else {
     clearInterval(timerInterval);
     isPaused = true;
-    pauseBatton.style.backgroundImage = "url('./assets/icons/icon-play-s.png')";
+    cells.forEach((cell) => cell.classList.add("paused"));
+    pauseButton.style.backgroundImage = "url('./assets/icons/icon-play-s.png')";
   }
 }
 
 function playGame() {
   actions.classList.remove("hidden");
+
   board.addEventListener("click", (event) => {
     const cell = event.target;
     if (cell.classList.contains("cell")) {
@@ -171,22 +174,10 @@ function playGame() {
       if (gemsFound === GEM_COUNT && timeLeft > 0) {
         clearInterval(timerInterval);
         congratulationsEl.classList.remove("hidden");
-        console.log(gameOverBtn);
-        gameOverBtn.forEach((btn) => {
-          btn.addEventListener("click", () => {
-            console.log("click");
-            startGame();
-          });
-        });
       }
 
       if (timeLeft === 0) {
         gameOverEl.classList.remove("hidden");
-        gameOverBtn.forEach((btn) => {
-          btn.addEventListener("click", () => {
-            startGame();
-          });
-        });
       }
     }
   });
