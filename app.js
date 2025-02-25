@@ -2,6 +2,10 @@ const BOARD_SIZE = 10;
 const GEM_COUNT = 5;
 const TIMER = 30;
 
+let timeLeft = TIMER;
+let timerInterval;
+let isPaused = false;
+
 const OFFSET = [
   [-1, -1],
   [-1, 0],
@@ -16,7 +20,10 @@ const OFFSET = [
 const board = document.querySelector(".game-board");
 const startButton = document.querySelector(".start-btn");
 const timer = document.querySelector(".timer");
+const actions = document.querySelector(".game-actions");
 const timerValue = document.querySelector(".timer-value");
+const pauseBatton = document.querySelector(".pause-btn");
+pauseBatton.addEventListener("click", handlePause);
 
 startButton.addEventListener("click", startGame);
 
@@ -83,10 +90,7 @@ function startGame() {
 }
 
 function startTime() {
-  timer.classList.remove("hidden");
-
-  let timeLeft = TIMER;
-  const timerInterval = setInterval(() => {
+  timerInterval = setInterval(() => {
     timeLeft--;
     timerValue.textContent = timeLeft;
     console.log(timeLeft);
@@ -103,8 +107,20 @@ function coverCells() {
     getTileImage(cell);
   });
 }
+function handlePause() {
+  if (isPaused) {
+    isPaused = false;
+    startTime();
+    pauseBatton.style.backgroundImage = "url('./assets/icons/icon-pause.png')";
+  } else {
+    clearInterval(timerInterval);
+    isPaused = true;
+    pauseBatton.style.backgroundImage = "url('./assets/icons/icon-play-s.png')";
+  }
+}
 
 function playGame() {
+  actions.classList.remove("hidden");
   board.addEventListener("click", (event) => {
     const cell = event.target;
     if (cell.classList.contains("cell")) {
@@ -128,7 +144,7 @@ function removeTileImage(cell) {
 }
 
 function initialize() {
-  timer.classList.add("hidden");
+  actions.classList.add("hidden");
   createGrid();
   coverCells();
 }
