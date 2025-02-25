@@ -37,59 +37,90 @@
 
     <!-- Main Content -->
     <main>
-      <!-- Left Column: Instructions -->
-      <section class="left-column rules">
-        <div class="board-medium rules-heading">How to Play</div>
-        <ul class="rules-list">
-          <li class="board-big rule-item">
-            <img src="./assets/icons/icon-check.png" alt="rule" />
-            Tap on any tile to uncover the color.
-          </li>
-          <li class="board-big rule-item">
-            <img src="./assets/icons/icon-check.png" alt="rule" />
-            Each color gives a hint about how close you are to a hidden gem.
-          </li>
-          <li class="board-big rule-item">
-            <img src="./assets/icons/icon-check.png" alt="rule" />Uncover as
-            many gems as possible before time runs out.
-          </li>
-        </ul>
-      </section>
+      <div class="main-container">
+        <!-- Left Column: Instructions -->
+        <section class="left-column rules">
+          <div class="board-medium rules-heading">How to Play</div>
+          <ul class="rules-list">
+            <li class="board-big rule-item">
+              <img src="./assets/icons/icon-check.png" alt="rule" />
+              Tap on any tile to uncover the color.
+            </li>
+            <li class="board-big rule-item">
+              <img src="./assets/icons/icon-check.png" alt="rule" />
+              Each color gives a hint about how close you are to a hidden gem.
+            </li>
+            <li class="board-big rule-item">
+              <img src="./assets/icons/icon-check.png" alt="rule" />Uncover as
+              many gems as possible before time runs out.
+            </li>
+          </ul>
+        </section>
 
-      <!-- Center Column: Game Grid -->
-      <section class="center-column">
-        <div class="game-actions">
-          <div class="timer board-medium">
-            <p class="timer-value">30</p>
-            <p>sec</p>
+        <!-- Center Column: Game Grid -->
+        <section class="center-column">
+          <div class="game-actions">
+            <div class="game-actions-container">
+              <div class="timer board-medium">
+                <p class="timer-value">30</p>
+                <p>sec</p>
+              </div>
+              <button
+                class="pause-btn"
+                style="
+                  background-image: url(./assets/icons/icon-pause.png);
+                  background-position: center center;
+                "
+              ></button>
+            </div>
           </div>
-          <button
-            class="pause-btn"
-            style="
-              background-image: url(./assets/icons/icon-pause.png);
-              background-position: center center;
-            "
-          ></button>
-        </div>
-        <div class="game-container">
-          <button class="start-btn">
-            <img src="./assets/icons/icon-start.png" alt="Start" />
-          </button>
-          <div class="game-board"></div>
-        </div>
-      </section>
 
-      <!-- Right Column: Score and Gem Info -->
-      <section class="right-column">
-        <div class="score board-medium">
-          <img src="./assets/icons/icon-star.png" alt="Score" />
-          <p class="score-value">0</p>
-        </div>
-        <div class="gem-info">
-          <p>Gems Found:</p>
-          <ul></ul>
-        </div>
-      </section>
+          <div class="game-container">
+            <button class="start-btn">
+              <img src="./assets/icons/icon-start.png" alt="Start" />
+            </button>
+
+            <div class="game-over congratulations">
+              <p class="game-over-text">CONGRATULATIONS!</p>
+              <button class="game-over-btn">
+                <img
+                  class="congratulations-image"
+                  src="./assets/icons/icon-play-again.png"
+                  alt="Menu"
+                />
+              </button>
+            </div>
+            <div class="game-over">
+              <p class="game-over-text">GAME OVER</p>
+              <button class="game-over-btn">
+                <img
+                  class="game-over-btn-image"
+                  src="./assets/icons/btn-try-again.png"
+                  alt="Menu"
+                />
+              </button>
+            </div>
+            <div class="game-board"></div>
+          </div>
+        </section>
+
+        <!-- Right Column: Score and Gem Info -->
+        <section class="right-column">
+          <div class="score board-medium">
+            <img src="./assets/icons/icon-star.png" alt="Score" />
+            <p class="score-value">0</p>
+          </div>
+          <div class="gem-info">
+            <p>Gems Found:</p>
+            <div class="gems-score">
+              <img src="./assets/items/amethyst.png" alt="Gem" />
+              <p class="gem-found">0</p>
+              <p>/</p>
+              <p class="gem-total">5</p>
+            </div>
+          </div>
+        </section>
+      </div>
     </main>
 
     <!-- Footer: Credits -->

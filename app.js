@@ -20,16 +20,26 @@ const OFFSET = [
 const board = document.querySelector(".game-board");
 const startButton = document.querySelector(".start-btn");
 const timer = document.querySelector(".timer");
-const actions = document.querySelector(".game-actions");
+const actions = document.querySelector(".game-actions-container");
 const timerValue = document.querySelector(".timer-value");
 const pauseBatton = document.querySelector(".pause-btn");
 const scoreEl = document.querySelector(".score-value");
+const gemEl = document.querySelector(".gem-found");
+const congratulationsEl = document.querySelector(".congratulations");
+const gameOverEl = document.querySelectorAll(".game-over");
+const gameOverBtn = document.querySelectorAll(".game-over-btn");
+
+gameOverEl.forEach((el) => el.classList.add("hidden"));
+
+console.log(gameOverEl);
+
 pauseBatton.addEventListener("click", handlePause);
 
 startButton.addEventListener("click", startGame);
 
 let gemPositions = [];
 let totalScore = 0;
+let gemsFound = 0;
 
 function placeGems() {
   while (gemPositions.length < GEM_COUNT) {
@@ -68,6 +78,12 @@ function createGrid() {
   const cells = document.querySelectorAll(".cell");
 }
 
+function clearGrid() {
+  while (board.firstChild) {
+    board.removeChild(board.firstChild);
+  }
+}
+
 function getHintPosition() {
   const hintPosition = [];
   gemPositions.forEach((gem) => {
@@ -86,8 +102,28 @@ function getHintPosition() {
 }
 
 function startGame() {
+  clearGrid();
+  resetGameState();
+  createGrid();
+  coverCells();
+
+  gameOverEl.forEach((el) => el.classList.add("hidden"));
+  congratulationsEl.classList.add("hidden");
   startButton.classList.add("hidden");
+
   startTime();
+}
+
+function resetGameState() {
+  timeLeft = TIMER;
+  timerValue.textContent = timeLeft;
+  clearGrid();
+  gemPositions = [];
+  totalScore = 0;
+  gemsFound = 0;
+  scoreEl.textContent = totalScore;
+  gemEl.textContent = gemsFound;
+  isPaused = false;
 }
 
 function startTime() {
@@ -130,6 +166,28 @@ function playGame() {
     if (cell.classList.contains("gem")) {
       totalScore += 100;
       scoreEl.textContent = totalScore;
+      gemsFound++;
+      gemEl.textContent = gemsFound;
+      if (gemsFound === GEM_COUNT && timeLeft > 0) {
+        clearInterval(timerInterval);
+        congratulationsEl.classList.remove("hidden");
+        console.log(gameOverBtn);
+        gameOverBtn.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            console.log("click");
+            startGame();
+          });
+        });
+      }
+
+      if (timeLeft === 0) {
+        gameOverEl.classList.remove("hidden");
+        gameOverBtn.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            startGame();
+          });
+        });
+      }
     }
   });
 }
