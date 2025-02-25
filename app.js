@@ -23,12 +23,13 @@ const timer = document.querySelector(".timer");
 const actions = document.querySelector(".game-actions");
 const timerValue = document.querySelector(".timer-value");
 const pauseBatton = document.querySelector(".pause-btn");
+const scoreEl = document.querySelector(".score-value");
 pauseBatton.addEventListener("click", handlePause);
 
 startButton.addEventListener("click", startGame);
 
 let gemPositions = [];
-let totalScrore = 0;
+let totalScore = 0;
 
 function placeGems() {
   while (gemPositions.length < GEM_COUNT) {
@@ -127,7 +128,8 @@ function playGame() {
       removeTileImage(cell);
     }
     if (cell.classList.contains("gem")) {
-      totalScrore += 100;
+      totalScore += 100;
+      scoreEl.textContent = totalScore;
     }
   });
 }
@@ -151,6 +153,8 @@ function removeTileImage(cell) {
   cell.style.backgroundImage = `url('./assets/tiles/tile-bg-1.png')`;
   cell.style.backgroundColor = "#1F1F1F";
 }
+
+function setScrore() {}
 
 function initialize() {
   actions.classList.add("hidden");
