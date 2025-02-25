@@ -140,7 +140,16 @@ function getTileImage(cell) {
 }
 
 function removeTileImage(cell) {
-  cell.style.backgroundImage = "none";
+  if (cell.classList.contains("hint")) {
+    cell.style.backgroundImage = "url('./assets/tiles/tile-bg-pink.png')";
+    return;
+  }
+  if (cell.classList.contains("gem")) {
+    cell.style.backgroundImage = "url('./assets/tiles/tile-gem.png')";
+    return;
+  }
+  cell.style.backgroundImage = `url('./assets/tiles/tile-bg-1.png')`;
+  cell.style.backgroundColor = "#1F1F1F";
 }
 
 function initialize() {
