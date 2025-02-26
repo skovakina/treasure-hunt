@@ -291,6 +291,8 @@ footer {
 
 .cell {
   cursor: pointer;
+  background-position: center center;
+  background-size: cover;
 }
 
 .cell.paused {

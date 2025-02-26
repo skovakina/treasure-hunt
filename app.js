@@ -73,7 +73,7 @@ function isValidPosition(row, col) {
 }
 
 function createGrid() {
-  getGemsPositions();
+  gems = getGemsPositions();
   hints = getHintsPositions();
 
   for (let row = 0; row < BOARD_SIZE; row++) {
@@ -86,16 +86,6 @@ function createGrid() {
       if (hints.includes(`${row}-${col}`)) {
         cell.setType("hint");
       }
-      // const cell = document.createElement("div");
-      // cell.classList.add("cell");
-      // const position = `${row}-${col}`;
-      // if (gemPositions.includes(position)) {
-      //   cell.classList.add("gem");
-      // }
-      // if (hints.includes(position)) {
-      //   cell.classList.add("hint");
-      // }
-      // board.appendChild(cell);
     }
   }
 }
@@ -110,7 +100,6 @@ function startGame() {
   clearGrid();
   resetGameState();
   createGrid();
-  coverCells();
 
   gameOverEl.forEach((el) => el.classList.add("hidden"));
   congratulationsEl.classList.add("hidden");
@@ -142,12 +131,6 @@ function startTime() {
   playGame();
 }
 
-function coverCells() {
-  const cells = document.querySelectorAll(".cell");
-  cells.forEach((cell) => {
-    getTileImage(cell);
-  });
-}
 function handlePause() {
   const cells = document.querySelectorAll(".cell");
   if (isPaused) {
@@ -165,65 +148,18 @@ function handlePause() {
 
 function playGame() {
   actions.classList.remove("hidden");
-
-  // board.addEventListener("click", (event) => {
-  //   const cell = event.target;
-  //   if (cell.classList.contains("cell")) {
-  //     removeTileImage(cell);
-  //   }
-  //   if (cell.classList.contains("gem")) {
-  //     totalScore += 100;
-  //     scoreEl.textContent = totalScore;
-  //     gemsFound++;
-  //     gemEl.textContent = gemsFound;
-  //     if (gemsFound === GEM_COUNT && timeLeft > 0) {
-  //       clearInterval(timerInterval);
-  //       congratulationsEl.classList.remove("hidden");
-  //     }
-
-  //     if (timeLeft === 0) {
-  //       gameOverEl.classList.remove("hidden");
-  //     }
-  //   }
-  // });
 }
-
-function getTileImage(cell) {
-  const tileType = Math.floor(Math.random() * 11);
-  cell.style.backgroundImage = `url('./assets/tiles/tile-type-${tileType}.png')`;
-  cell.style.backgroundSize = "fill";
-  cell.style.backgroundPosition = "center";
-}
-
-function removeTileImage(cell) {
-  if (cell.classList.contains("hint")) {
-    cell.style.backgroundImage = "url('./assets/tiles/tile-bg-pink.png')";
-    return;
-  }
-  if (cell.classList.contains("gem")) {
-    cell.style.backgroundImage = "url('./assets/tiles/tile-gem.png')";
-    return;
-  }
-  cell.style.backgroundImage = `url('./assets/tiles/tile-bg-1.png')`;
-  cell.style.backgroundColor = "#1F1F1F";
-}
-
-function setScrore() {}
 
 function initialize() {
   actions.classList.add("hidden");
   createGrid();
-  coverCells();
-  const cells = document.querySelectorAll(".cell");
-  cells.forEach((cell) => cell.classList.add("paused"));
 }
 
 function onGemFound() {
   totalScore += 100;
   scoreEl.textContent = totalScore;
-}
-
-function getResults() {
+  gemsFound++;
+  gemEl.textContent = gemsFound;
   if (gemsFound === GEM_COUNT && timeLeft > 0) {
     clearInterval(timerInterval);
     congratulationsEl.classList.remove("hidden");
@@ -244,6 +180,7 @@ class Cell {
     this.onGemFound = onGemFound;
 
     this.element = document.createElement("div");
+    this.element.style.backgroundImage = `url('./assets/tiles/tile-type-${this.getTileImage()}.png')`;
     this.element.classList.add("cell");
 
     this.element.addEventListener("click", () => {
@@ -258,6 +195,10 @@ class Cell {
     } else if (type === "hint") {
       this.type = "hint";
     }
+  }
+
+  getTileImage() {
+    return Math.floor(Math.random() * 11);
   }
 
   reveal() {
