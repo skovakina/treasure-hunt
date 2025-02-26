@@ -8,6 +8,7 @@ let isPaused = false;
 let gemPositions = [];
 let totalScore = 0;
 let gemsFound = 0;
+const cells = [];
 
 // Offsets for hint positions
 const OFFSET = [
@@ -79,7 +80,7 @@ function createGrid() {
   for (let row = 0; row < BOARD_SIZE; row++) {
     for (let col = 0; col < BOARD_SIZE; col++) {
       const cell = new Cell(row, col, onGemFound);
-
+      cells.push(cell);
       if (gemPositions.includes(`${row}-${col}`)) {
         cell.setType("gem");
       }
@@ -101,6 +102,8 @@ function startGame() {
   resetGameState();
   createGrid();
 
+  cells.forEach((cell) => cell.setEnabled());
+
   gameOverEl.forEach((el) => el.classList.add("hidden"));
   congratulationsEl.classList.add("hidden");
   startButton.classList.add("hidden");
@@ -109,9 +112,9 @@ function startGame() {
 }
 
 function resetGameState() {
-  timeLeft = TIMER;
-  timerValue.textContent = timeLeft;
   clearGrid();
+  timeLeft = TIMER;
+  timerValue.textContent = TIMER;
   gemPositions = [];
   totalScore = 0;
   gemsFound = 0;
@@ -132,16 +135,15 @@ function startTime() {
 }
 
 function handlePause() {
-  const cells = document.querySelectorAll(".cell");
   if (isPaused) {
     isPaused = false;
     startTime();
-    cells.forEach((cell) => cell.classList.remove("paused"));
+    cells.forEach((cell) => cell.setEnabled());
     pauseButton.style.backgroundImage = "url('./assets/icons/icon-pause.png')";
   } else {
     clearInterval(timerInterval);
     isPaused = true;
-    cells.forEach((cell) => cell.classList.add("paused"));
+    cells.forEach((cell) => cell.setDisabled());
     pauseButton.style.backgroundImage = "url('./assets/icons/icon-play-s.png')";
   }
 }
@@ -177,8 +179,8 @@ class Cell {
     this.position = `${row}-${col}`;
     this.type = "empty";
     this.isRevealed = false;
+    this.isDisabled = true;
     this.onGemFound = onGemFound;
-
     this.element = document.createElement("div");
     this.element.style.backgroundImage = `url('./assets/tiles/tile-type-${this.getTileImage()}.png')`;
     this.element.classList.add("cell");
@@ -201,8 +203,16 @@ class Cell {
     return Math.floor(Math.random() * 11);
   }
 
+  setDisabled() {
+    this.isDisabled = true;
+  }
+
+  setEnabled() {
+    this.isDisabled = false;
+  }
+
   reveal() {
-    if (this.isRevealed) return;
+    if (this.isRevealed || this.isDisabled) return;
     this.isRevealed = true;
 
     if (this.type === "gem") {

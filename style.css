@@ -295,6 +295,10 @@ footer {
   background-size: cover;
 }
 
+.cell:hover {
+  transform: scale(1.05);
+}
+
 .cell.paused {
   pointer-events: none;
   cursor: default;
