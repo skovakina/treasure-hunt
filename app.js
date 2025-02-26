@@ -5,9 +5,10 @@ const TIMER = 30;
 let timeLeft = TIMER;
 let timerInterval;
 let isPaused = false;
-let gemPositions = [];
 let totalScore = 0;
 let gemsFound = 0;
+const gemPositions = [];
+const hintPosition = [];
 const cells = [];
 
 // Offsets for hint positions
@@ -53,10 +54,8 @@ function getGemsPositions() {
 }
 
 function getHintsPositions() {
-  const hintPosition = [];
   gemPositions.forEach((gem) => {
     const [gemRow, gemCol] = gem.split("-").map(Number);
-
     OFFSET.forEach((offset) => {
       const row = gemRow + offset[0];
       const col = gemCol + offset[1];
@@ -66,7 +65,6 @@ function getHintsPositions() {
       }
     });
   });
-  return hintPosition;
 }
 
 function isValidPosition(row, col) {
@@ -74,8 +72,8 @@ function isValidPosition(row, col) {
 }
 
 function createGrid() {
-  gems = getGemsPositions();
-  hints = getHintsPositions();
+  getGemsPositions();
+  getHintsPositions();
 
   for (let row = 0; row < BOARD_SIZE; row++) {
     for (let col = 0; col < BOARD_SIZE; col++) {
@@ -84,7 +82,7 @@ function createGrid() {
       if (gemPositions.includes(`${row}-${col}`)) {
         cell.setType("gem");
       }
-      if (hints.includes(`${row}-${col}`)) {
+      if (hintPosition.includes(`${row}-${col}`)) {
         cell.setType("hint");
       }
     }
