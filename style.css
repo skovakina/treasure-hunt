@@ -297,3 +297,7 @@ footer {
   pointer-events: none;
   cursor: default;
 }
+
+.disabled {
+  pointer-events: none;
+}

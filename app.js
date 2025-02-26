@@ -209,6 +209,8 @@ function initialize() {
   actions.classList.add("hidden");
   createGrid();
   coverCells();
+  const cells = document.querySelectorAll(".cell");
+  cells.forEach((cell) => cell.classList.add("paused"));
 }
 
 initialize();
