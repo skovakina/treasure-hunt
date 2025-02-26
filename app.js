@@ -1,7 +1,8 @@
 const BOARD_SIZE = 5;
 const GEM_COUNT = 1;
-const TIMER = 30;
+const TIMER = 10;
 
+let level = 1;
 let timeLeft = TIMER;
 let boardSize = BOARD_SIZE;
 let gemCount = GEM_COUNT;
@@ -11,6 +12,7 @@ let totalScore = 0;
 let gemsFound = 0;
 let gemPositions = [];
 let cells = [];
+let currentScore = 0;
 
 const OFFSET = [
   [-1, -1],
@@ -33,18 +35,18 @@ const gemTotalEl = document.querySelector(".gem-total");
 const congratulationsEl = document.querySelector(".congratulations");
 const youLostEl = document.querySelector(".you-lost");
 const gameOverEl = document.querySelectorAll(".game-over");
-const gameOverBtn = document.querySelectorAll(".game-over-btn");
 const actions = document.querySelector(".game-actions-container");
 const nextLevelBtn = document.querySelector(".next-level-btn");
+const tryAgainBtn = document.querySelector(".try-again-btn");
 
 gameOverEl.forEach((el) => hideElement(el));
 
 pauseButton.addEventListener("click", handlePause);
 startButton.addEventListener("click", startGame);
 nextLevelBtn.addEventListener("click", handleLevelUp);
-
-gameOverBtn.forEach((btn) => {
-  btn.addEventListener("click", startGame);
+tryAgainBtn.addEventListener("click", () => {
+  console.log("Try again");
+  handleRestart();
 });
 
 class Cell {
@@ -180,7 +182,7 @@ function resetGameState() {
   timeLeft = TIMER;
   timerValue.textContent = TIMER;
   gemPositions = [];
-  totalScore = 0;
+  currentScore = 0;
   gemsFound = 0;
   scoreEl.textContent = totalScore;
   gemEl.textContent = gemsFound;
@@ -191,11 +193,10 @@ function startTimer() {
   timerInterval = setInterval(() => {
     timeLeft--;
     timerValue.textContent = timeLeft;
-    if (timeLeft === 0 && gemsFound < gemCount) {
+    if (timeLeft <= 0 && gemsFound < gemCount) {
       clearInterval(timerInterval);
       showElement(youLostEl);
       cells.forEach((cell) => cell.setDisabled());
-      hideElement(actions);
     }
   }, 1000);
 }
@@ -214,6 +215,13 @@ function handlePause() {
   }
 }
 
+function handleRestart() {
+  level = 1;
+  boardSize = BOARD_SIZE;
+  gemCount = GEM_COUNT;
+  setUpGame();
+}
+
 function handleLevelUp() {
   boardSize += 1;
   gemCount += 1;
@@ -221,20 +229,20 @@ function handleLevelUp() {
 }
 
 function onGemFound() {
-  totalScore += 100;
-  scoreEl.textContent = totalScore;
+  currentScore += 100;
+  scoreEl.textContent = totalScore + currentScore;
   gemsFound++;
   gemEl.textContent = gemsFound;
   if (gemsFound === gemCount && timeLeft > 0) {
     clearInterval(timerInterval);
     showElement(congratulationsEl);
-
-    scoreEl.textContent = getFinalScore();
+    totalScore += getFinalScore(currentScore);
+    scoreEl.textContent = totalScore;
   }
 }
 
-function getFinalScore() {
-  return totalScore + timeLeft * 10;
+function getFinalScore(currentScore) {
+  return currentScore + timeLeft * 10;
 }
 
 function showElement(element) {
@@ -266,6 +274,12 @@ function startCountdown() {
       showElement(actions);
     }
   }, 1000);
+}
+
+function initialState() {
+  level = 1;
+  boardSize = BOARD_SIZE;
+  gemCount = GEM_COUNT;
 }
 
 setUpGame();
