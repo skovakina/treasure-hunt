@@ -21,16 +21,9 @@ body {
   min-height: 100vh;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+main {
+  display: flex;
 }
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
 /* Utils */
 
 .board-medium {
@@ -72,7 +65,7 @@ ul {
 
 /* Navigation */
 nav {
-  display: flex;
+  display: none;
   justify-content: space-between;
   align-items: center;
   width: 100%;
@@ -168,13 +161,6 @@ span {
   font-size: 2rem;
 }
 
-.game-board {
-  display: grid;
-  grid-template-columns: repeat(10, 30px);
-  grid-gap: 5px;
-  justify-content: center;
-}
-
 /* Left Column / Rules */
 
 .rule-item {
@@ -239,7 +225,6 @@ footer {
   border: 4px solid #f7ebcf;
   background: #1f1f1f;
   display: grid;
-  grid-template-columns: repeat(10, 42px);
   grid-gap: 4px;
 }
 
@@ -261,6 +246,7 @@ footer {
 /* End game */
 
 .game-over {
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   justify-content: center;
