@@ -65,6 +65,13 @@ main {
   display: none !important;
 }
 
+.column-heading,
+.column-heading span {
+  font-size: 2rem;
+  text-align: center;
+  height: 80px;
+}
+
 /* Navigation */
 nav {
   display: none;
@@ -91,20 +98,38 @@ button {
 /* Main Layout */
 
 .game-actions-container {
+  position: relative;
   height: 80px;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-end;
   align-items: center;
+  width: 100%;
 }
 
 .game-actions {
+  width: 100%;
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+}
+
+.timer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.timer p {
+  margin-left: 6px;
+  gap: 6px;
+  font-size: 2rem;
 }
 
 .game-container {
   position: relative;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .start-btn {
@@ -153,15 +178,6 @@ main {
   align-items: center;
 }
 
-.timer {
-  gap: 6px;
-}
-
-.timer p,
-span {
-  font-size: 2rem;
-}
-
 /* Left Column / Rules */
 
 .rule-item {
@@ -187,10 +203,26 @@ span {
   gap: 24px;
 }
 
-.right-column li {
+.info-item p {
+  font-size: 1.5rem;
+}
+
+.gem-info img {
+  height: 28px;
+}
+
+.info-list {
+  font-size: 20px;
+}
+
+.info-list li {
   display: flex;
   align-items: center;
   background-color: #1f1f1f;
+  padding: 6px 12px;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
 }
 
 .score {
