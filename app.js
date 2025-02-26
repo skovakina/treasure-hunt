@@ -32,6 +32,7 @@ const pauseButton = document.querySelector(".pause-btn");
 const scoreEl = document.querySelector(".score-value");
 const gemEl = document.querySelector(".gem-found");
 const gemTotalEl = document.querySelector(".gem-total");
+const boardSizeEl = document.querySelector(".board-size-value");
 const congratulationsEl = document.querySelector(".congratulations");
 const youLostEl = document.querySelector(".you-lost");
 const gameOverEl = document.querySelectorAll(".game-over");
@@ -166,6 +167,7 @@ function clearGrid() {
 function setUpGame() {
   resetGameState();
   createGrid();
+
   gameOverEl.forEach((el) => hideElement(el));
   cells.forEach((cell) => cell.setDisabled());
   showElement(actions);
@@ -184,6 +186,8 @@ function resetGameState() {
   gemPositions = [];
   currentScore = 0;
   gemsFound = 0;
+  boardSizeEl.textContent = `${boardSize}x${boardSize}`;
+  gemTotalEl.textContent = gemCount;
   scoreEl.textContent = totalScore;
   gemEl.textContent = gemsFound;
   isPaused = false;
