@@ -299,8 +299,8 @@ footer {
   transform: scale(1.05);
 }
 
-.cell.paused {
-  pointer-events: none;
+.cell.disabled:hover {
+  transform: none;
   cursor: default;
 }
 

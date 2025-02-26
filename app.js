@@ -183,7 +183,7 @@ class Cell {
     this.onGemFound = onGemFound;
     this.element = document.createElement("div");
     this.element.style.backgroundImage = `url('./assets/tiles/tile-type-${this.getTileImage()}.png')`;
-    this.element.classList.add("cell");
+    this.element.classList.add("cell", "disabled");
 
     this.element.addEventListener("click", () => {
       this.reveal();
@@ -205,10 +205,12 @@ class Cell {
 
   setDisabled() {
     this.isDisabled = true;
+    this.element.classList.add("disabled");
   }
 
   setEnabled() {
     this.isDisabled = false;
+    this.element.classList.remove("disabled");
   }
 
   reveal() {
