@@ -40,7 +40,7 @@ gameOverBtn.forEach((btn) => {
   btn.addEventListener("click", startGame);
 });
 
-function placeGems() {
+function getGemsPositions() {
   while (gemPositions.length < GEM_COUNT) {
     const randomRow = Math.floor(Math.random() * BOARD_SIZE);
     const randomCol = Math.floor(Math.random() * BOARD_SIZE);
@@ -51,39 +51,7 @@ function placeGems() {
   }
 }
 
-function isValidPosition(row, col) {
-  return row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE;
-}
-
-function createGrid() {
-  placeGems();
-  hints = getHintPosition();
-
-  for (let row = 0; row < BOARD_SIZE; row++) {
-    for (let col = 0; col < BOARD_SIZE; col++) {
-      const cell = document.createElement("div");
-      cell.classList.add("cell");
-      const position = `${row}-${col}`;
-      if (gemPositions.includes(position)) {
-        cell.classList.add("gem");
-      }
-      if (hints.includes(position)) {
-        cell.classList.add("hint");
-      }
-      board.appendChild(cell);
-    }
-  }
-
-  const cells = document.querySelectorAll(".cell");
-}
-
-function clearGrid() {
-  while (board.firstChild) {
-    board.removeChild(board.firstChild);
-  }
-}
-
-function getHintPosition() {
+function getHintsPositions() {
   const hintPosition = [];
   gemPositions.forEach((gem) => {
     const [gemRow, gemCol] = gem.split("-").map(Number);
@@ -98,6 +66,44 @@ function getHintPosition() {
     });
   });
   return hintPosition;
+}
+
+function isValidPosition(row, col) {
+  return row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE;
+}
+
+function createGrid() {
+  getGemsPositions();
+  hints = getHintsPositions();
+
+  for (let row = 0; row < BOARD_SIZE; row++) {
+    for (let col = 0; col < BOARD_SIZE; col++) {
+      const cell = new Cell(row, col, onGemFound);
+
+      if (gemPositions.includes(`${row}-${col}`)) {
+        cell.setType("gem");
+      }
+      if (hints.includes(`${row}-${col}`)) {
+        cell.setType("hint");
+      }
+      // const cell = document.createElement("div");
+      // cell.classList.add("cell");
+      // const position = `${row}-${col}`;
+      // if (gemPositions.includes(position)) {
+      //   cell.classList.add("gem");
+      // }
+      // if (hints.includes(position)) {
+      //   cell.classList.add("hint");
+      // }
+      // board.appendChild(cell);
+    }
+  }
+}
+
+function clearGrid() {
+  while (board.firstChild) {
+    board.removeChild(board.firstChild);
+  }
 }
 
 function startGame() {
@@ -129,7 +135,6 @@ function startTime() {
   timerInterval = setInterval(() => {
     timeLeft--;
     timerValue.textContent = timeLeft;
-    console.log(timeLeft);
     if (timeLeft === 0) {
       clearInterval(timerInterval);
     }
@@ -161,26 +166,26 @@ function handlePause() {
 function playGame() {
   actions.classList.remove("hidden");
 
-  board.addEventListener("click", (event) => {
-    const cell = event.target;
-    if (cell.classList.contains("cell")) {
-      removeTileImage(cell);
-    }
-    if (cell.classList.contains("gem")) {
-      totalScore += 100;
-      scoreEl.textContent = totalScore;
-      gemsFound++;
-      gemEl.textContent = gemsFound;
-      if (gemsFound === GEM_COUNT && timeLeft > 0) {
-        clearInterval(timerInterval);
-        congratulationsEl.classList.remove("hidden");
-      }
+  // board.addEventListener("click", (event) => {
+  //   const cell = event.target;
+  //   if (cell.classList.contains("cell")) {
+  //     removeTileImage(cell);
+  //   }
+  //   if (cell.classList.contains("gem")) {
+  //     totalScore += 100;
+  //     scoreEl.textContent = totalScore;
+  //     gemsFound++;
+  //     gemEl.textContent = gemsFound;
+  //     if (gemsFound === GEM_COUNT && timeLeft > 0) {
+  //       clearInterval(timerInterval);
+  //       congratulationsEl.classList.remove("hidden");
+  //     }
 
-      if (timeLeft === 0) {
-        gameOverEl.classList.remove("hidden");
-      }
-    }
-  });
+  //     if (timeLeft === 0) {
+  //       gameOverEl.classList.remove("hidden");
+  //     }
+  //   }
+  // });
 }
 
 function getTileImage(cell) {
@@ -211,6 +216,65 @@ function initialize() {
   coverCells();
   const cells = document.querySelectorAll(".cell");
   cells.forEach((cell) => cell.classList.add("paused"));
+}
+
+function onGemFound() {
+  totalScore += 100;
+  scoreEl.textContent = totalScore;
+}
+
+function getResults() {
+  if (gemsFound === GEM_COUNT && timeLeft > 0) {
+    clearInterval(timerInterval);
+    congratulationsEl.classList.remove("hidden");
+  }
+  if (timeLeft === 0) {
+    clearInterval(timerInterval);
+    gameOverEl.classList.remove("hidden");
+  }
+}
+
+class Cell {
+  constructor(row, col, onGemFound) {
+    this.row = row;
+    this.col = col;
+    this.position = `${row}-${col}`;
+    this.type = "empty";
+    this.isRevealed = false;
+    this.onGemFound = onGemFound;
+
+    this.element = document.createElement("div");
+    this.element.classList.add("cell");
+
+    this.element.addEventListener("click", () => {
+      this.reveal();
+    });
+
+    board.appendChild(this.element);
+  }
+  setType(type) {
+    if (type === "gem") {
+      this.type = "gem";
+    } else if (type === "hint") {
+      this.type = "hint";
+    }
+  }
+
+  reveal() {
+    if (this.isRevealed) return;
+    this.isRevealed = true;
+
+    if (this.type === "gem") {
+      this.element.style.backgroundImage = "url('./assets/tiles/tile-gem.png')";
+      this.onGemFound();
+    } else if (this.type === "hint") {
+      this.element.style.backgroundImage =
+        "url('./assets/tiles/tile-bg-pink.png')";
+    } else {
+      this.element.style.backgroundImage =
+        "url('./assets/tiles/tile-bg-1.png')";
+    }
+  }
 }
 
 initialize();
