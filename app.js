@@ -3,13 +3,13 @@ const GEM_COUNT = 5;
 const TIMER = 30;
 
 let timeLeft = TIMER;
+let boardSize = BOARD_SIZE;
 let timerInterval;
 let isPaused = false;
 let totalScore = 0;
 let gemsFound = 0;
-const gemPositions = [];
-const hintPosition = [];
-const cells = [];
+let gemPositions = [];
+let cells = [];
 
 // Offsets for hint positions
 const OFFSET = [
@@ -44,8 +44,8 @@ gameOverBtn.forEach((btn) => {
 
 function getGemsPositions() {
   while (gemPositions.length < GEM_COUNT) {
-    const randomRow = Math.floor(Math.random() * BOARD_SIZE);
-    const randomCol = Math.floor(Math.random() * BOARD_SIZE);
+    const randomRow = Math.floor(Math.random() * boardSize);
+    const randomCol = Math.floor(Math.random() * boardSize);
     const position = `${randomRow}-${randomCol}`;
     if (!gemPositions.includes(position)) {
       gemPositions.push(position);
@@ -54,6 +54,7 @@ function getGemsPositions() {
 }
 
 function getHintsPositions() {
+  let hintPosition = [];
   gemPositions.forEach((gem) => {
     const [gemRow, gemCol] = gem.split("-").map(Number);
     OFFSET.forEach((offset) => {
@@ -65,24 +66,25 @@ function getHintsPositions() {
       }
     });
   });
+  return hintPosition;
 }
 
 function isValidPosition(row, col) {
-  return row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE;
+  return row >= 0 && row < boardSize && col >= 0 && col < boardSize;
 }
 
 function createGrid() {
   getGemsPositions();
-  getHintsPositions();
+  hints = getHintsPositions();
 
-  for (let row = 0; row < BOARD_SIZE; row++) {
-    for (let col = 0; col < BOARD_SIZE; col++) {
+  for (let row = 0; row < boardSize; row++) {
+    for (let col = 0; col < boardSize; col++) {
       const cell = new Cell(row, col, onGemFound);
       cells.push(cell);
       if (gemPositions.includes(`${row}-${col}`)) {
         cell.setType("gem");
       }
-      if (hintPosition.includes(`${row}-${col}`)) {
+      if (hints.includes(`${row}-${col}`)) {
         cell.setType("hint");
       }
     }
@@ -91,7 +93,7 @@ function createGrid() {
 
 function clearGrid() {
   while (board.firstChild) {
-    board.removeChild(board.firstChild);
+    board.innerHTML = "";
   }
 }
 
@@ -105,6 +107,7 @@ function startGame() {
   gameOverEl.forEach((el) => el.classList.add("hidden"));
   congratulationsEl.classList.add("hidden");
   startButton.classList.add("hidden");
+  actions.classList.remove("hidden");
 
   startTime();
 }
@@ -129,7 +132,6 @@ function startTime() {
       clearInterval(timerInterval);
     }
   }, 1000);
-  playGame();
 }
 
 function handlePause() {
@@ -144,10 +146,6 @@ function handlePause() {
     cells.forEach((cell) => cell.setDisabled());
     pauseButton.style.backgroundImage = "url('./assets/icons/icon-play-s.png')";
   }
-}
-
-function playGame() {
-  actions.classList.remove("hidden");
 }
 
 function initialize() {
