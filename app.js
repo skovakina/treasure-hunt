@@ -164,7 +164,6 @@ function clearGrid() {
 function setUpGame() {
   resetGameState();
   createGrid();
-  cells.forEach((cell) => cell.setEnabled());
   gameOverEl.forEach((el) => hideElement(el));
   cells.forEach((cell) => cell.setDisabled());
   showElement(actions);
@@ -173,8 +172,7 @@ function setUpGame() {
 
 function startGame() {
   hideElement(startButton);
-  cells.forEach((cell) => cell.setEnabled());
-  startTimer();
+  startCountdown();
 }
 
 function resetGameState() {
@@ -245,6 +243,29 @@ function showElement(element) {
 
 function hideElement(element) {
   element.classList.add("hidden");
+}
+
+function startCountdown() {
+  let countdownValue = 3;
+  const countdownEl = document.createElement("div");
+  countdownEl.classList.add("countdown");
+  countdownEl.textContent = countdownValue;
+  board.appendChild(countdownEl);
+
+  const countdownInterval = setInterval(() => {
+    countdownValue--;
+    if (countdownValue > 0) {
+      countdownEl.textContent = countdownValue;
+    } else if (countdownValue === 0) {
+      countdownEl.textContent = "Go!";
+    } else {
+      clearInterval(countdownInterval);
+      countdownEl.remove();
+      startTimer();
+      cells.forEach((cell) => cell.setEnabled());
+      showElement(actions);
+    }
+  }, 1000);
 }
 
 setUpGame();
