@@ -25,6 +25,12 @@ const GameState = {
     this.gemsFound = 0;
     this.cells = [];
   },
+
+  resetHard() {
+    this.totalScore = 0;
+    this.level = 1;
+    this.boardSize = BOARD_SIZE;
+  },
   levelUp() {
     this.level++;
     this.boardSize++;
@@ -192,8 +198,7 @@ function handlePause() {
 }
 
 function restartGame() {
-  GameState.level = 1;
-  GameState.boardSize = BOARD_SIZE;
+  GameState.resetHard();
   GameState.reset();
   setUpGame();
 }
