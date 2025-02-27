@@ -14,8 +14,6 @@ class Cell {
     this.element.addEventListener("click", () => {
       this.reveal();
     });
-
-    // board.appendChild(this.element);
   }
   setType(type) {
     if (type === "gem") {
