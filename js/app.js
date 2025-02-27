@@ -2,7 +2,7 @@ import Cell from "./cell.js";
 
 const BOARD_SIZE = 6;
 const GEM_COUNT = 1;
-const TIMER = 5;
+const TIMER = 30;
 const GEM_VALUE = 100;
 const BONUS = 10;
 const COUNTDOWN = 3;
@@ -24,6 +24,11 @@ const GameState = {
     this.gemPositions = [];
     this.gemsFound = 0;
     this.cells = [];
+  },
+  levelUp() {
+    this.level++;
+    this.boardSize++;
+    this.gemCount++;
   },
 };
 
@@ -63,7 +68,7 @@ pauseButton.addEventListener("click", handlePause);
 startButton.addEventListener("click", startGame);
 nextLevelBtn.addEventListener("click", handleLevelUp);
 tryAgainBtn.addEventListener("click", () => {
-  handleRestart();
+  restartGame();
 });
 
 function getGemsPositions() {
@@ -78,7 +83,7 @@ function getGemsPositions() {
 }
 
 function getHintsPositions() {
-  let hintPosition = [];
+  const hintPosition = [];
   GameState.gemPositions.forEach((gem) => {
     const [gemRow, gemCol] = gem.split("-").map(Number);
     OFFSET.forEach((offset) => {
@@ -132,12 +137,10 @@ function clearGrid() {
 }
 
 function setUpGame() {
-  resetGameState();
+  resetRound();
   createGrid();
-
   gameOverEl.forEach((el) => hideElement(el));
   GameState.cells.forEach((cell) => cell.setDisabled());
-  showElement(actions);
   showElement(startButton);
 }
 
@@ -146,7 +149,7 @@ function startGame() {
   startCountdown();
 }
 
-function resetGameState() {
+function resetRound() {
   clearGrid();
   GameState.reset();
   updateTextContent();
@@ -188,7 +191,7 @@ function handlePause() {
   }
 }
 
-function handleRestart() {
+function restartGame() {
   GameState.level = 1;
   GameState.boardSize = BOARD_SIZE;
   GameState.reset();
@@ -196,9 +199,7 @@ function handleRestart() {
 }
 
 function handleLevelUp() {
-  GameState.boardSize++;
-  GameState.gemCount++;
-  GameState.level++;
+  GameState.levelUp();
   setUpGame();
 }
 
@@ -247,7 +248,6 @@ function startCountdown() {
       countdownEl.remove();
       startTimer();
       GameState.cells.forEach((cell) => cell.setEnabled());
-      showElement(actions);
     }
   }, 1000);
 }
