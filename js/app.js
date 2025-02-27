@@ -18,15 +18,15 @@ const GameState = {
   gemPositions: [],
   cells: [],
 
-  reset() {
+  resetRound() {
     this.currentScore = 0;
     this.timeLeft = TIMER;
     this.gemPositions = [];
     this.gemsFound = 0;
     this.cells = [];
   },
-
   resetHard() {
+    this.gemCount = GEM_COUNT;
     this.totalScore = 0;
     this.level = 1;
     this.boardSize = BOARD_SIZE;
@@ -137,9 +137,7 @@ function createGrid() {
 }
 
 function clearGrid() {
-  while (board.firstChild) {
-    board.innerHTML = "";
-  }
+  board.innerHTML = "";
 }
 
 function setUpGame() {
@@ -157,7 +155,7 @@ function startGame() {
 
 function resetRound() {
   clearGrid();
-  GameState.reset();
+  GameState.resetRound();
   updateTextContent();
   isPaused = false;
 }
@@ -199,7 +197,7 @@ function handlePause() {
 
 function restartGame() {
   GameState.resetHard();
-  GameState.reset();
+  GameState.resetRound();
   setUpGame();
 }
 
