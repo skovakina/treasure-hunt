@@ -1,6 +1,11 @@
+import Cell from "./cell.js";
+
 const BOARD_SIZE = 6;
 const GEM_COUNT = 1;
 const TIMER = 30;
+const GEM_VALUE = 100;
+const BONUS = 10;
+const COUNTDOWN = 3;
 
 let level = 1;
 let timeLeft = TIMER;
@@ -47,67 +52,8 @@ pauseButton.addEventListener("click", handlePause);
 startButton.addEventListener("click", startGame);
 nextLevelBtn.addEventListener("click", handleLevelUp);
 tryAgainBtn.addEventListener("click", () => {
-  console.log("Try again");
   handleRestart();
 });
-
-class Cell {
-  constructor(row, col, onGemFound) {
-    this.row = row;
-    this.col = col;
-    this.position = `${row}-${col}`;
-    this.type = "empty";
-    this.isRevealed = false;
-    this.isDisabled = true;
-    this.onGemFound = onGemFound;
-    this.element = document.createElement("div");
-    this.element.style.backgroundImage = `url('./assets/tiles/tile-type-${this.getTileImage()}.png')`;
-    this.element.classList.add("cell", "disabled");
-
-    this.element.addEventListener("click", () => {
-      this.reveal();
-    });
-
-    board.appendChild(this.element);
-  }
-  setType(type) {
-    if (type === "gem") {
-      this.type = "gem";
-    } else if (type === "hint") {
-      this.type = "hint";
-    }
-  }
-
-  getTileImage() {
-    return Math.floor(Math.random() * 11);
-  }
-
-  setDisabled() {
-    this.isDisabled = true;
-    this.element.classList.add("disabled");
-  }
-
-  setEnabled() {
-    this.isDisabled = false;
-    this.element.classList.remove("disabled");
-  }
-
-  reveal() {
-    if (this.isRevealed || this.isDisabled) return;
-    this.isRevealed = true;
-
-    if (this.type === "gem") {
-      this.element.style.backgroundImage = "url('./assets/tiles/tile-gem.png')";
-      this.onGemFound();
-    } else if (this.type === "hint") {
-      this.element.style.backgroundImage =
-        "url('./assets/tiles/tile-bg-pink.png')";
-    } else {
-      this.element.style.backgroundImage =
-        "url('./assets/tiles/tile-bg-1.png')";
-    }
-  }
-}
 
 function getGemsPositions() {
   while (gemPositions.length < gemCount) {
@@ -143,12 +89,13 @@ function isValidPosition(row, col) {
 function createGrid() {
   board.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
   getGemsPositions();
-  hints = getHintsPositions();
+  const hints = getHintsPositions();
 
   for (let row = 0; row < boardSize; row++) {
     for (let col = 0; col < boardSize; col++) {
       const cell = new Cell(row, col, onGemFound);
       cells.push(cell);
+      board.appendChild(cell.element);
       if (gemPositions.includes(`${row}-${col}`)) {
         cell.setType("gem");
       }
@@ -188,7 +135,7 @@ function resetGameState() {
   currentScore = 0;
   gemsFound = 0;
   levelValueEl.textContent = level;
-  boardSizeEl.textContent = `${boardSize}x${boardSize}`;
+  boardSizeEl.textContent = `${boardSize} x ${boardSize}`;
   gemTotalEl.textContent = gemCount;
   scoreEl.textContent = totalScore;
   gemEl.textContent = gemsFound;
@@ -225,6 +172,7 @@ function handleRestart() {
   level = 1;
   boardSize = BOARD_SIZE;
   gemCount = GEM_COUNT;
+  cells = [];
   setUpGame();
 }
 
@@ -236,7 +184,7 @@ function handleLevelUp() {
 }
 
 function onGemFound() {
-  currentScore += 100;
+  currentScore += GEM_VALUE;
   scoreEl.textContent = totalScore + currentScore;
   gemsFound++;
   gemEl.textContent = gemsFound;
@@ -249,11 +197,12 @@ function onGemFound() {
 }
 
 function getFinalScore(currentScore) {
-  return currentScore + timeLeft * 10;
+  return currentScore + timeLeft * BONUS;
 }
 
 function showElement(element) {
   element.classList.remove("hidden");
+  element.classList.add("show");
 }
 
 function hideElement(element) {
@@ -261,7 +210,7 @@ function hideElement(element) {
 }
 
 function startCountdown() {
-  let countdownValue = 3;
+  let countdownValue = COUNTDOWN;
   const countdownEl = document.createElement("div");
   countdownEl.classList.add("countdown");
   countdownEl.textContent = countdownValue;
