@@ -1,6 +1,6 @@
-const BOARD_SIZE = 5;
+const BOARD_SIZE = 6;
 const GEM_COUNT = 1;
-const TIMER = 10;
+const TIMER = 30;
 
 let level = 1;
 let timeLeft = TIMER;
@@ -38,6 +38,7 @@ const youLostEl = document.querySelector(".you-lost");
 const gameOverEl = document.querySelectorAll(".game-over");
 const actions = document.querySelector(".game-actions-container");
 const nextLevelBtn = document.querySelector(".next-level-btn");
+const levelValueEl = document.querySelector(".level-value");
 const tryAgainBtn = document.querySelector(".try-again-btn");
 
 gameOverEl.forEach((el) => hideElement(el));
@@ -186,6 +187,7 @@ function resetGameState() {
   gemPositions = [];
   currentScore = 0;
   gemsFound = 0;
+  levelValueEl.textContent = level;
   boardSizeEl.textContent = `${boardSize}x${boardSize}`;
   gemTotalEl.textContent = gemCount;
   scoreEl.textContent = totalScore;
@@ -227,8 +229,9 @@ function handleRestart() {
 }
 
 function handleLevelUp() {
-  boardSize += 1;
-  gemCount += 1;
+  boardSize++;
+  gemCount++;
+  level++;
   setUpGame();
 }
 
@@ -278,12 +281,6 @@ function startCountdown() {
       showElement(actions);
     }
   }, 1000);
-}
-
-function initialState() {
-  level = 1;
-  boardSize = BOARD_SIZE;
-  gemCount = GEM_COUNT;
 }
 
 setUpGame();
