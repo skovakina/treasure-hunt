@@ -2,7 +2,7 @@ import Cell from "./cell.js";
 
 const BOARD_SIZE = 6;
 const GEM_COUNT = 1;
-const TIMER = 30;
+const TIMER = 5;
 const GEM_VALUE = 100;
 const BONUS = 10;
 const COUNTDOWN = 3;
@@ -27,7 +27,6 @@ const GameState = {
   },
 };
 
-let timeLeft = TIMER;
 let timerInterval;
 let isPaused = false;
 
@@ -149,12 +148,7 @@ function startGame() {
 
 function resetGameState() {
   clearGrid();
-  GameState.timeLeft = TIMER;
-
-  GameState.gemPositions = [];
-  GameState.currentScore = 0;
-  GameState.gemsFound = 0;
-
+  GameState.reset();
   updateTextContent();
   isPaused = false;
 }
@@ -195,10 +189,9 @@ function handlePause() {
 }
 
 function handleRestart() {
-  level = 1;
+  GameState.level = 1;
   GameState.boardSize = BOARD_SIZE;
-  GameState.gemCount = GEM_COUNT;
-  GameState.cells = [];
+  GameState.reset();
   setUpGame();
 }
 
@@ -211,7 +204,7 @@ function handleLevelUp() {
 
 function onGemFound() {
   GameState.currentScore += GEM_VALUE;
-  console.log(GameState.currentScore);
+
   scoreEl.textContent = GameState.totalScore + GameState.currentScore;
   GameState.gemsFound++;
   gemEl.textContent = GameState.gemsFound;
@@ -224,7 +217,6 @@ function onGemFound() {
 }
 
 function getFinalScore(score) {
-  console.log(GameState.timeLeft);
   return score + GameState.timeLeft * BONUS;
 }
 
