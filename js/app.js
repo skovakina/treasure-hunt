@@ -10,18 +10,19 @@ const COUNTDOWN = 3;
 const GameState = {
   level: 1,
   timeLeft: TIMER,
-  boardSize: BOARD_SIZE, // +
-  gemCount: GEM_COUNT, // +
-  totalScore: 0, // +
-  gemsFound: 0, // +
+  boardSize: BOARD_SIZE,
+  gemCount: GEM_COUNT,
+  currentScore: 0,
+  totalScore: 0,
+  gemsFound: 0,
   gemPositions: [],
   cells: [],
 
   reset() {
+    this.currentScore = 0;
     this.timeLeft = TIMER;
     this.gemPositions = [];
     this.gemsFound = 0;
-    this.totalScore = 0;
     this.cells = [];
   },
 };
@@ -148,24 +149,30 @@ function startGame() {
 
 function resetGameState() {
   clearGrid();
-  timeLeft = TIMER;
-  timerValue.textContent = TIMER;
+  GameState.timeLeft = TIMER;
+
   GameState.gemPositions = [];
   GameState.currentScore = 0;
   GameState.gemsFound = 0;
+
+  updateTextContent();
+  isPaused = false;
+}
+
+function updateTextContent() {
+  timerValue.textContent = TIMER;
   levelValueEl.textContent = GameState.level;
   boardSizeEl.textContent = `${GameState.boardSize} x ${GameState.boardSize}`;
   gemTotalEl.textContent = GameState.gemCount;
   scoreEl.textContent = GameState.totalScore;
   gemEl.textContent = GameState.gemsFound;
-  isPaused = false;
 }
 
 function startTimer() {
   timerInterval = setInterval(() => {
-    timeLeft--;
-    timerValue.textContent = timeLeft;
-    if (timeLeft <= 0 && GameState.gemsFound < GameState.gemCount) {
+    GameState.timeLeft--;
+    timerValue.textContent = GameState.timeLeft;
+    if (GameState.timeLeft <= 0 && GameState.gemsFound < GameState.gemCount) {
       clearInterval(timerInterval);
       showElement(youLostEl);
       GameState.cells.forEach((cell) => cell.setDisabled());
@@ -204,10 +211,11 @@ function handleLevelUp() {
 
 function onGemFound() {
   GameState.currentScore += GEM_VALUE;
+  console.log(GameState.currentScore);
   scoreEl.textContent = GameState.totalScore + GameState.currentScore;
   GameState.gemsFound++;
   gemEl.textContent = GameState.gemsFound;
-  if (GameState.gemsFound === GameState.gemCount && timeLeft > 0) {
+  if (GameState.gemsFound === GameState.gemCount && GameState.timeLeft > 0) {
     clearInterval(timerInterval);
     showElement(congratulationsEl);
     GameState.totalScore += getFinalScore(GameState.currentScore);
@@ -215,8 +223,9 @@ function onGemFound() {
   }
 }
 
-function getFinalScore(currentScore) {
-  return GameState.currentScore + GameState.timeLeft * BONUS;
+function getFinalScore(score) {
+  console.log(GameState.timeLeft);
+  return score + GameState.timeLeft * BONUS;
 }
 
 function showElement(element) {
