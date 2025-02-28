@@ -141,7 +141,7 @@ function clearGrid() {
 }
 
 function setUpGame() {
-  resetRound();
+  resetUI();
   createGrid();
   gameOverEl.forEach((el) => hideElement(el));
   GameState.cells.forEach((cell) => cell.setDisabled());
@@ -153,7 +153,7 @@ function startGame() {
   startCountdown();
 }
 
-function resetRound() {
+function resetUI() {
   clearGrid();
   GameState.resetRound();
   updateTextContent();
@@ -197,6 +197,7 @@ function handlePause() {
 
 function restartGame() {
   GameState.resetHard();
+  resetUI();
   setUpGame();
 }
 
