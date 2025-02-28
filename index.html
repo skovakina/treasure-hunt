@@ -8,7 +8,7 @@
       content="Uncover hidden gems in this fun treasure hunt game. Play now!"
     />
     <title>Treasure Hunt</title>
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./main.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -24,30 +24,32 @@
     <script defer src="./js/app.js" type="module"></script>
   </head>
   <body>
-    <!-- Main Content -->
     <main>
       <div class="main-container">
-        <!-- Left Column: Instructions -->
-        <section class="left-column rules">
+        <!-- Left Column: Rules -->
+        <section class="section-rules">
           <h2 class="column-heading">How to Play</h2>
           <ul class="rules-list">
             <li class="board-big rule-item">
               <img src="./assets/icons/icon-check.png" alt="rule" />
-              Tap on any tile to uncover the color.
+              Click cells to find gems using color hints and finish each level
+              in 30 seconds.
             </li>
             <li class="board-big rule-item">
               <img src="./assets/icons/icon-check.png" alt="rule" />
-              Each color gives a hint about how close you are to a hidden gem.
+              Earn +10 extra points for every second left. Each level adds +1
+              gem and +1 to grid size.
             </li>
             <li class="board-big rule-item">
-              <img src="./assets/icons/icon-check.png" alt="rule" />Uncover as
-              many gems as possible before time runs out.
+              <img src="./assets/icons/icon-check.png" alt="rule" />
+              Complete all levels on time to win — run out of time, and you
+              lose.
             </li>
           </ul>
         </section>
 
-        <!-- Center Column: Game Grid -->
-        <section class="center-column">
+        <!-- Center Column: Game Board -->
+        <section class="section-game">
           <div class="game-actions">
             <div class="game-actions-container">
               <div class="timer board-medium">
@@ -94,8 +96,8 @@
           </div>
         </section>
 
-        <!-- Right Column: Score and Gem Info -->
-        <section class="right-column">
+        <!-- Right Column: Level Info -->
+        <section class="section-info">
           <h2 class="column-heading">
             Level <span class="level-value">1</span>
           </h2>

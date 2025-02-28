@@ -1,5 +1,5 @@
 .board-medium {
-  background-image: url("./assets/components/board-medium.png");
+  background-image: url("../../assets/components/board-medium.png");
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -10,7 +10,7 @@
 }
 
 .board-big {
-  background-image: url("./assets/components/board-big.png");
+  background-image: url("../../assets/components/board-big.png");
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -21,7 +21,7 @@
 }
 
 .board-long {
-  background-image: url("./assets/components/board-long.png");
+  background-image: url("../../assets/components/board-long.png");
   background-size: cover;
   display: flex;
   justify-content: center;

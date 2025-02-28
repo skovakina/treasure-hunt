@@ -1,0 +1,51 @@
+.info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.info-item p {
+  font-size: 1.5rem;
+}
+
+.info-item img {
+  height: 28px;
+}
+
+.info-list {
+  font-size: 20px;
+}
+
+.info-list li {
+  display: flex;
+  background-color: #1f1f1f;
+  padding: 6px 12px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 12px;
+}
+
+.score {
+  font-size: 2rem;
+  gap: 10px;
+}
+
+.score p {
+  font-size: 1.5rem;
+}
+
+.score img {
+  width: 28px;
+  height: 28px;
+}
+
+.gems-score {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gems-score p {
+  font-size: 1.5rem;
+}
