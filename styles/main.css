@@ -1,7 +1,7 @@
-@import "./styles/utils.css";
-@import "./styles/section-rules.css";
-@import "./styles/section-game.css";
-@import "./styles/section-info.css";
+@import "./utils.css";
+@import "./section-rules.css";
+@import "./section-game.css";
+@import "./section-info.css";
 
 * {
   margin: 0;
