@@ -1,6 +1,8 @@
 # **Treasure Hunt Game**  
 
-![Screenshot of Treasure Hunt Game](path/to/screenshot.png)  
+
+https://github.com/user-attachments/assets/76cc2969-bd23-4660-8e15-7f1fa8785232
+
 
 ## **Game Name: Treasure Hunt**  
 Treasure Hunt is a fun and challenging puzzle game where players click on grid cells to uncover hidden gems. Using color hints as clues, players must find all the gems within **30 seconds** to advance to the next level. Each level increases the difficulty by adding one more gem and expanding the grid size, while the time limit remains the same. Players earn **+10 points** for every second left on the timer. Complete all levels on time to win, but if the timer runs out on any level, it's game over!  
