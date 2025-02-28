@@ -197,7 +197,6 @@ function handlePause() {
 
 function restartGame() {
   GameState.resetHard();
-  GameState.resetRound();
   setUpGame();
 }
 

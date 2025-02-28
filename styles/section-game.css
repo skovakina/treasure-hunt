@@ -78,9 +78,6 @@
   font-size: 2rem;
 }
 
-.cell {
-}
-
 .cell:hover {
   transform: scale(1.05);
 }
